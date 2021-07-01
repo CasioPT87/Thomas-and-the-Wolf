@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react';
 import Box from '../Box/Box';
-import useAppState from '../../hooks/useAppState';
+import dataFormatter from '../../helpers/dataFormatter';
+import useAppManager from '../../hooks/useAppManager';
 
 
 const Grid = () => {
-  const { data, setData } = useAppState(null);
+  const { manager, moveTom, setInitialData } = useAppManager(null);
 
   useEffect(() => {
     async function fetchData() {
       const resp = await fetch(process.env.PUBLIC_URL + '/data/PuzzleSetups.json');
       if (!resp.ok) return;
       const data = await resp.json();
-      setData(data);
+      setInitialData(dataFormatter(data));
     }
     fetchData();
   }, []);
 
-  if (!data) return null;
+  if (!manager) return null;
 
   return (
     <>
@@ -24,7 +25,7 @@ const Grid = () => {
         <h1>Thomas and The Wolf</h1>
       </header>
       <section>
-        {data.map(boxData => <Box key={boxData.id} data={boxData} />)}
+        {manager.data.layout.map(boxData => <Box key={boxData.id} data={boxData} onClick={moveTom} />)}
       </section>
     </>
   )

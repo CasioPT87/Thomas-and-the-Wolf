@@ -1,14 +1,21 @@
 
 function canMove(direction, border) {
   const directions = { up: 'T', down: 'B', left: 'L', right: 'R' };
-  if (!Object.keys(directions).contains(direction)) return false;
-  return border.includes(directions[direction]);
+  console.log(Object.keys(directions), direction)
+  if (!Object.keys(directions).includes(direction)) return false;
+  return !border.includes(directions[direction]);
+}
+
+function findIdByPosition(boxesData, position) {
+  return boxesData.find(boxData => {
+    return boxData.column === position.column && boxData.row === position.row;
+  })
 }
 
 export default function dataFormatter(data) {
   const layout = data.puzzles[0].layout;
 
-  return layout.map((boxData, i) => {
+  const boxesData = layout.map((boxData, i) => {
     const { row, column, borders } = boxData;
     return {
       index: i,
@@ -17,5 +24,13 @@ export default function dataFormatter(data) {
       column,
       canMove: (direction) => canMove(direction, borders),
     }
-  })
+  });
+
+  return {
+    initialPosition: {
+      tom: findIdByPosition(boxesData, data.puzzles[0].thomas),
+      wolf: findIdByPosition(boxesData, data.puzzles[0].wolf)
+    },
+    layout: boxesData
+  }
 }

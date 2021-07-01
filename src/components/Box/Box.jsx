@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
 
-const Box = () => {
+const Box = ({ data, onClick }) => {
   return (
-    <div data-testid="box">I'm a box</div>
+    <div data-testid="box" onClick={() => onClick(data.id)} >{`row: ${data.row}, column: ${data.column}`}</div>
   )
 } 
 
