@@ -52,33 +52,29 @@ class AppManagerHelper {
     }
   }
 
-  // not proud of this
   findWolfTarget(wolfBox, change, qttyRow, qttyColumns, force) {
-    if (change === 'row') {
-      const targetBoxRow = this.findBoxByCoordinates(wolfBox.row + qttyRow, wolfBox.column);
-      const moveTypeRow = this.positionMoveType(targetBoxRow.id);
-      const wolfCanMoveRow = wolfBox.canMove(moveTypeRow);
-      if(wolfCanMoveRow) return targetBoxRow;
-      if(wolfCanMoveRow && force) return null;
-      else if(!wolfCanMoveRow && !force) {
-        const targetBoxColumn = this.findBoxByCoordinates(wolfBox.row, wolfBox.column + qttyColumns);
-        const moveTypeColumn = this.positionMoveType(targetBoxColumn.id);
-        const wolfCanMoveColumn = wolfBox.canMove(moveTypeColumn);
-        if(wolfCanMoveColumn) return targetBoxColumn;
-        else return null;
-      } ////
-    } else if (change === 'column') {
-      const targetBoxColumn = this.findBoxByCoordinates(wolfBox.row, wolfBox.column + qttyColumns);
-      const moveTypeColumn = this.positionMoveType(targetBoxColumn.id);
-      if(wolfBox.canMove(moveTypeColumn)) return targetBoxColumn;
-      if(!wolfBox.canMove(moveTypeColumn) && force) return null;
-      else if(!wolfBox.canMove(moveTypeColumn) && !force) {
-        const targetBoxRow = this.findBoxByCoordinates(wolfBox.row + qttyRow, wolfBox.column);
-        const moveTypeRow = this.positionMoveType(targetBoxRow.id);
-        if(wolfBox.canMove(moveTypeRow)) return targetBoxRow;
-        else return null;
-      }
+    let coordinates;
+    if (change === 'row') coordinates = [wolfBox.row + qttyRow, wolfBox.column];
+    else coordinates = [wolfBox.row, wolfBox.column + qttyColumns];
+
+    const { targetBox, wolfCanMove } = this.getWolfTargetData(coordinates, wolfBox);
+    if(wolfCanMove) return targetBox;
+    if(wolfCanMove && force) return null;
+    else if(!wolfCanMove && !force) {
+      if (change === 'row') coordinates = [wolfBox.row, wolfBox.column + qttyColumns];
+      else coordinates = [wolfBox.row + qttyRow, wolfBox.column];
+
+      const { targetBox, wolfCanMove } = this.getWolfTargetData(coordinates, wolfBox);
+      if(wolfCanMove) return targetBox;
+      else return null;
     }
+  }
+
+  getWolfTargetData(coordinates, wolfBox) {
+    const targetBox = this.findBoxByCoordinates(...coordinates);
+    const moveType = this.positionMoveType(targetBox.id);
+    const wolfCanMove = wolfBox.canMove(moveType);
+    return { targetBox, moveType, wolfCanMove }
   }
 
   move(boxId) {
