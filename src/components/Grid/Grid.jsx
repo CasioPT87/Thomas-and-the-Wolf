@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import Box from '../Box/Box';
+import useAppState from '../../hooks/useAppState';
 
 
 const Grid = () => {
-  const [data, setData] = useState(null);
+  const { data, setData } = useAppState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -17,15 +18,13 @@ const Grid = () => {
 
   if (!data) return null;
 
-  const layoutData = data.puzzles[0].layout;
-
   return (
     <>
       <header>
         <h1>Thomas and The Wolf</h1>
       </header>
       <section>
-        {layoutData.map(boxData => <Box data={boxData} />)}
+        {data.map(boxData => <Box key={boxData.id} data={boxData} />)}
       </section>
     </>
   )
