@@ -28,7 +28,7 @@ const Grid = () => {
     if (!grid) return;
     const updatedStyles = {
       gridTemplateColumns: `repeat(${grid.cols}, 80px)`,
-      gridTemplateColumns: `repeat(${grid.rows}, 80px)`
+      gridTemplateRows: `repeat(${grid.rows}, 80px)`
     }
     setStyles(updatedStyles);
   }, [grid]);
@@ -36,7 +36,7 @@ const Grid = () => {
   useEffect(() => {
     let moveWolfTimer;
     let restartTimer;
-    if (!grid || !manager) return;
+    if (!manager) return;
     if (!manager.isTomTurn()) {
       moveWolfTimer = setTimeout(() => moveWolf(), STEP_DELAY);
     }
