@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import cx from 'classnames';
 import styles from './Box.module.css';
 
@@ -17,7 +16,7 @@ const Box = ({ data, manager, onClick }) => {
         [styles.wolf]: manager.isCurrentWolfBox(data.id),
       })}
     >
-        {data.index}
+        {`${data.row}${data.column}`}
     </div>
   )
 } 
