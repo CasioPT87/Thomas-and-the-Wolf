@@ -30,6 +30,7 @@ export default function dataFormatter(data) {
       tom: findIdByPosition(boxesData, data.puzzles[0].thomas),
       wolf: findIdByPosition(boxesData, data.puzzles[0].wolf)
     },
-    layout: boxesData
+    layout: boxesData,
+    displayWall: canMove
   }
 }

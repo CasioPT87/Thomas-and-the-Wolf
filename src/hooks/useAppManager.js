@@ -68,6 +68,14 @@ class AppManagerHelper {
   inSame(box1, box2, comparison) {
     return box1[comparison] === box2[comparison]
   }
+
+  isCurrentTomBox(boxId) {
+    return boxId === this.tomBox;
+  }
+
+  isCurrentWolfBox(boxId) {
+    return boxId === this.wolfBox;
+  }
 }
 
 export default function useAppManager(initialdata) {

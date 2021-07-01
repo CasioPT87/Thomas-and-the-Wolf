@@ -3,17 +3,12 @@ import Box from '../Box/Box';
 import dataFormatter from '../../helpers/dataFormatter';
 import useAppManager from '../../hooks/useAppManager';
 import calculateGrid from '../../helpers/calculateGrid';
+import styles from './Grid.module.css';
 
-const style = {
-  gridTemplateColumns: 'repeat(0, auto)',
-  gridTemplateRows: 'repeat(0, auto)',
-  display: 'grid',
-  width: '100%'
-}
 
 const Grid = () => {
   const { manager, moveTom, setInitialData } = useAppManager(null);
-  const [updatedStyle, setStyles] = useState(style);
+  const [updatedStyle, setStyles] = useState({});
   const [grid, setGrid] = useState(null);
 
   useEffect(() => {
@@ -30,9 +25,8 @@ const Grid = () => {
   useEffect(() => {
     if (!grid) return;
     const updatedStyles = {
-      ...style,
-      gridTemplateColumns: `repeat(${grid.cols}, auto)`,
-      gridTemplateColumns: `repeat(${grid.rows}, auto)`
+      gridTemplateColumns: `repeat(${grid.cols}, 100px)`,
+      gridTemplateColumns: `repeat(${grid.rows}, 100px)`
     }
     setStyles(updatedStyles);
   }, [grid]);
@@ -44,8 +38,10 @@ const Grid = () => {
       <header>
         <h1>Thomas and The Wolf</h1>
       </header>
-      <section style={updatedStyle}>
-        {manager.data.layout.map(boxData => <Box key={boxData.id} data={boxData} onClick={moveTom} />)}
+      <section className={styles.grid} style={updatedStyle}>
+        {manager.data.layout.map(boxData => {
+          return (<Box key={boxData.id} data={boxData} onClick={moveTom} manager={manager} />)
+        })}
       </section>
     </>
   )
