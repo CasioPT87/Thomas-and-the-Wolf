@@ -7,6 +7,7 @@
   box-sizing: border-box;
   font-weight: bold;
   color: grey;
+  cursor: pointer;
 }
 
 .blocked--up {

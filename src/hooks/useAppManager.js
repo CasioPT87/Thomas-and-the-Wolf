@@ -65,7 +65,7 @@ class AppManagerHelper {
       else coordinates = [wolfBox.row + qttyRow, wolfBox.column];
 
       const { targetBox, wolfCanMove } = this.getWolfTargetData(coordinates, wolfBox);
-      if(wolfCanMove) return targetBox;
+      if (wolfCanMove) return targetBox;
       else return null;
     }
   }
@@ -137,11 +137,16 @@ class AppManagerHelper {
   isCurrentWolfBox(boxId) {
     return boxId === this.wolfBox;
   }
+
+  isGameOver() {
+    return this.tomBox === this.wolfBox;
+  }
 }
 
 export default function useAppManager() {
   const [managerHelper, setManagerHelper] = useState(null);
   const [turn, setTurn] = useState(null);
+  const [initialData, setInitialData] = useState(null);
 
   return {
     manager: managerHelper,
@@ -149,14 +154,16 @@ export default function useAppManager() {
       const turn = managerHelper.moveTom(boxId);
       if (turn) setTurn(turn);
     },
-    moveWolf: (turn) => {
-      const newTurn = managerHelper.moveWolf(turn);
+    moveWolf: () => {
+      const newTurn = managerHelper.moveWolf();
       if (newTurn) setTurn(newTurn);
     },
     setInitialData: (data) => {
       const manager = new AppManagerHelper(data);
       setManagerHelper(manager);
+      setInitialData(data);
     },
-    turn 
+    turn,
+    initialData
   }
 }

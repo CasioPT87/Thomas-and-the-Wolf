@@ -9,7 +9,7 @@ import styles from './Grid.module.css';
 const STEP_DELAY = 500;
 
 const Grid = () => {
-  const { manager, moveTom, moveWolf, setInitialData, turn } = useAppManager(null);
+  const { initialData, manager, moveTom, moveWolf, setInitialData, turn } = useAppManager(null);
   const [updatedStyle, setStyles] = useState({});
   const [grid, setGrid] = useState(null);
 
@@ -35,8 +35,12 @@ const Grid = () => {
 
   useEffect(() => {
     if (!grid || !manager) return;
+    if (manager.isGameOver()) {
+      alert('that is all folks');
+      setInitialData(initialData);
+    }
     if (!manager.isTomTurn()) {
-      setTimeout(() => moveWolf(turn), STEP_DELAY);
+      setTimeout(() => moveWolf(), STEP_DELAY);
     }
   }, [turn]);
 
