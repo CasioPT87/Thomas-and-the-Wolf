@@ -81,6 +81,6 @@ export default function useAppManager(initialdata) {
     },
     setInitialData: (data) => {
       setManagerHelper(new AppManagerHelper(data));
-    }
+    },
   }
 }

@@ -1,7 +1,6 @@
 
 function canMove(direction, border) {
   const directions = { up: 'T', down: 'B', left: 'L', right: 'R' };
-  console.log(Object.keys(directions), direction)
   if (!Object.keys(directions).includes(direction)) return false;
   return !border.includes(directions[direction]);
 }
