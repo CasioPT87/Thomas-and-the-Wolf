@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import Box from '../Box/Box';
 
 
 const Grid = () => {
-
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -17,13 +17,15 @@ const Grid = () => {
 
   if (!data) return null;
 
+  const layoutData = data.puzzles[0].layout;
+
   return (
     <>
       <header>
         <h1>Thomas and The Wolf</h1>
       </header>
       <section>
-        <div>hey, whatssupppp</div> 
+        {layoutData.map(boxData => <Box data={boxData} />)}
       </section>
     </>
   )

@@ -1,15 +1,21 @@
-import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import layoutData from '../../test/mockedData/layout';
 
-import Grid from './index';
+import Grid from './Grid';
 
-test('renders and has right title', () => {
-  render(<Grid />);
-  screen.findByText('Thomas and The Wolf')
-  .then(h1 => {
-    expect(h1).toBeInTheDocument();
+describe.only('Grid component', () => {
+
+  beforeEach(() => {
+    fetch = jest.fn().mockReturnValue(Promise.resolve({ ok: true, json: () => Promise.resolve(layoutData)}))
   })
-  .catch(e => {
-    throw new Error('title not found');
-  })
-});
+
+  afterEach(() => {
+    fetch.mockClear();
+  });
+
+  it('renders and has right title', async() => {
+    render(<Grid />);
+    expect(await screen.findByText('Thomas and The Wolf')).toBeInTheDocument()
+  });
+})
