@@ -10,7 +10,9 @@ const Box = ({ data, manager, onClick }) => {
   return (
     <div 
       data-testid="box" 
-      onClick={() => onClick(data.id)}
+      onClick={() => {
+        if (manager.isTomTurn()) return onClick(data.id);
+      }}
       className={cx(styles.box, ...borderStyles, {
         [styles.tom]: manager.isCurrentTomBox(data.id),
         [styles.wolf]: manager.isCurrentWolfBox(data.id),
