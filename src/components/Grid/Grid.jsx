@@ -34,15 +34,23 @@ const Grid = () => {
   }, [grid]);
 
   useEffect(() => {
+    let moveWolfTimer;
+    let restartTimer;
     if (!grid || !manager) return;
-    if (manager.isGameOver()) {
-      alert('that is all folks');
-      setInitialData(initialData);
-    }
     if (!manager.isTomTurn()) {
-      setTimeout(() => moveWolf(), STEP_DELAY);
+      moveWolfTimer = setTimeout(() => moveWolf(), STEP_DELAY);
     }
-  }, [turn]);
+    if (manager.isGameOver()) {
+      restartTimer = setTimeout(() => {
+        alert('that is all folks');
+        setInitialData(initialData);
+      }, STEP_DELAY);
+    }
+    return function clearTimers() {
+      clearTimeout(moveWolfTimer);
+      clearTimeout(restartTimer);
+    }
+  }, [turn, manager]);
 
   if (!manager) return null;
 
