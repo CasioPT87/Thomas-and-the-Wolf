@@ -21,13 +21,17 @@ class AppManagerHelper {
   }
 
   moveWolf() {
+    console.log('move wolf method')
     const wolfBox = this.findBoxById(this.wolfBox);
     const tomBox = this.findBoxById(this.tomBox);
 
     const { change, qttyRow, qttyColumns, force } = this.wolfShouldMoveColumnOrRow(wolfBox, tomBox);
     const targetBox = this.findWolfTarget(wolfBox, change, qttyRow, qttyColumns, force);
 
-    if (targetBox) this.move(targetBox.id);
+    if (targetBox) {
+      console.log('move, please')
+      return this.move(targetBox.id);
+    }
 
     return this.nextTurn();
   }
@@ -35,7 +39,6 @@ class AppManagerHelper {
   wolfShouldMoveColumnOrRow(wolfBox, tomBox) {
     const diffRows = wolfBox.row - tomBox.row;
     const diffColums = wolfBox.column - tomBox.column;
-    console.log(diffRows, diffColums)
     const change = Math.abs(diffRows) < Math.abs(diffColums) ? 'column' : 'row';
     let force = false;
     if (diffRows === 0 || diffColums === 0) {
@@ -43,8 +46,6 @@ class AppManagerHelper {
     }
     const qttyRow = diffRows > 0 ? -1 : 1;
     const qttyColumns = diffColums > 0 ? -1 : 1
-
-    console.log(change)
 
     return {
       change,
@@ -157,7 +158,9 @@ export default function useAppManager() {
       if (turn) setTurn(turn);
     },
     moveWolf: (turn) => {
+      console.log('turn', turn)
       const newTurn = managerHelper.moveWolf(turn);
+      console.log('new turn', newTurn)
       if (newTurn) setTurn(newTurn);
     },
     setInitialData: (data) => {
