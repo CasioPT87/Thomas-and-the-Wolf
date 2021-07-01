@@ -5,9 +5,10 @@ import useAppManager from '../../hooks/useAppManager';
 import calculateGrid from '../../helpers/calculateGrid';
 import styles from './Grid.module.css';
 
+const STEP_DELAY = 500;
 
 const Grid = () => {
-  const { manager, moveTom, setInitialData } = useAppManager(null);
+  const { manager, moveTom, moveWolf, setInitialData, turn } = useAppManager(null);
   const [updatedStyle, setStyles] = useState({});
   const [grid, setGrid] = useState(null);
 
@@ -25,11 +26,21 @@ const Grid = () => {
   useEffect(() => {
     if (!grid) return;
     const updatedStyles = {
-      gridTemplateColumns: `repeat(${grid.cols}, 100px)`,
-      gridTemplateColumns: `repeat(${grid.rows}, 100px)`
+      gridTemplateColumns: `repeat(${grid.cols}, 80px)`,
+      gridTemplateColumns: `repeat(${grid.rows}, 80px)`
     }
     setStyles(updatedStyles);
   }, [grid]);
+
+  useEffect(() => {
+    if (!grid || !manager) return;
+    if (!manager.isTomTurn()) {
+      var moveWolfTimer = setTimeout(() => moveWolf(turn), STEP_DELAY);
+    }
+    return (() => {
+      clearInterval(moveWolfTimer);
+    })
+  }, [turn]);
 
   if (!manager) return null;
 
@@ -40,7 +51,13 @@ const Grid = () => {
       </header>
       <section className={styles.grid} style={updatedStyle}>
         {manager.data.layout.map(boxData => {
-          return (<Box key={boxData.id} data={boxData} onClick={moveTom} manager={manager} />)
+          return (
+            <Box
+              key={boxData.id}
+              data={boxData}
+              onClick={moveTom}
+              manager={manager}
+            />)
         })}
       </section>
     </>

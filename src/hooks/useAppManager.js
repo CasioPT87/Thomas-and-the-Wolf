@@ -20,7 +20,11 @@ class AppManagerHelper {
     return null;
   }
 
-  moveWolf() {}
+  moveWolf() {
+    console.log('hola')
+    this.wolfBox = 'box-5';
+    return this.nextTurn();
+  }
 
   move(boxId) {
     if (this.isTomTurn()) {
@@ -33,7 +37,11 @@ class AppManagerHelper {
   }
 
   nextTurn() {
-    return this;
+    let turnIndex = TURNS.findIndex(turn => turn === this.turn);
+    turnIndex++
+    if (turnIndex >= TURNS.length) turnIndex = 0;
+    this.turn = TURNS[turnIndex];
+    return this.turn;
   }
 
   positionMoveType(boxId) {
@@ -78,17 +86,24 @@ class AppManagerHelper {
   }
 }
 
-export default function useAppManager(initialdata) {
+export default function useAppManager() {
   const [managerHelper, setManagerHelper] = useState(null);
+  const [turn, setTurn] = useState(null);
 
   return {
     manager: managerHelper,
     moveTom: (boxId) => {
-      const manager = managerHelper.moveTom(boxId);
-      setManagerHelper(manager);
+      const turn = managerHelper.moveTom(boxId);
+      if (turn) setTurn(turn);
+    },
+    moveWolf: (turn) => {
+      const newTurn = managerHelper.moveWolf(turn);
+      if (newTurn) setTurn(newTurn);
     },
     setInitialData: (data) => {
-      setManagerHelper(new AppManagerHelper(data));
+      const manager = new AppManagerHelper(data);
+      setManagerHelper(manager);
     },
+    turn 
   }
 }
