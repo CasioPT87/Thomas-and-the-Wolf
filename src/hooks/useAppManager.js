@@ -21,19 +21,75 @@ class AppManagerHelper {
   }
 
   moveWolf() {
-    console.log('hola')
-    this.wolfBox = 'box-5';
+    const wolfBox = this.findBoxById(this.wolfBox);
+    const tomBox = this.findBoxById(this.tomBox);
+
+    const { change, qttyRow, qttyColumns, force } = this.wolfShouldMoveColumnOrRow(wolfBox, tomBox);
+    const targetBox = this.findWolfTarget(wolfBox, change, qttyRow, qttyColumns, force);
+
+    if (targetBox) this.move(targetBox.id);
+
     return this.nextTurn();
+  }
+
+  wolfShouldMoveColumnOrRow(wolfBox, tomBox) {
+    const diffRows = wolfBox.row - tomBox.row;
+    const diffColums = wolfBox.column - tomBox.column;
+    console.log(diffRows, diffColums)
+    const change = Math.abs(diffRows) < Math.abs(diffColums) ? 'column' : 'row';
+    let force = false;
+    if (diffRows === 0 || diffColums === 0) {
+      force = true;
+    }
+    const qttyRow = diffRows > 0 ? -1 : 1;
+    const qttyColumns = diffColums > 0 ? -1 : 1
+
+    console.log(change)
+
+    return {
+      change,
+      qttyRow,
+      qttyColumns,
+      force
+    }
+  }
+
+  // not proud of this
+  findWolfTarget(wolfBox, change, qttyRow, qttyColumns, force) {
+    if (change === 'row') {
+      const targetBoxRow = this.findBoxByCoordinates(wolfBox.row + qttyRow, wolfBox.column);
+      const moveTypeRow = this.positionMoveType(targetBoxRow.id);
+      const wolfCanMoveRow = wolfBox.canMove(moveTypeRow);
+      if(wolfCanMoveRow) return targetBoxRow;
+      if(wolfCanMoveRow && force) return null;
+      else if(!wolfCanMoveRow && !force) {
+        const targetBoxColumn = this.findBoxByCoordinates(wolfBox.row, wolfBox.column + qttyColumns);
+        const moveTypeColumn = this.positionMoveType(targetBoxColumn.id);
+        const wolfCanMoveColumn = wolfBox.canMove(moveTypeColumn);
+        if(wolfCanMoveColumn) return targetBoxColumn;
+        else return null;
+      } ////
+    } else if (change === 'column') {
+      const targetBoxColumn = this.findBoxByCoordinates(wolfBox.row, wolfBox.column + qttyColumns);
+      const moveTypeColumn = this.positionMoveType(targetBoxColumn.id);
+      if(wolfBox.canMove(moveTypeColumn)) return targetBoxColumn;
+      if(!wolfBox.canMove(moveTypeColumn) && force) return null;
+      else if(!wolfBox.canMove(moveTypeColumn) && !force) {
+        const targetBoxRow = this.findBoxByCoordinates(wolfBox.row + qttyRow, wolfBox.column);
+        const moveTypeRow = this.positionMoveType(targetBoxRow.id);
+        if(wolfBox.canMove(moveTypeRow)) return targetBoxRow;
+        else return null;
+      }
+    }
   }
 
   move(boxId) {
     if (this.isTomTurn()) {
       this.tomBox = boxId;
-      return this.nextTurn();
     } else {
       this.wolfBox = boxId;
-      return this.nextTurn();
     }
+    return this.nextTurn();
   }
 
   nextTurn() {
@@ -62,6 +118,10 @@ class AppManagerHelper {
 
   findBoxById(boxId) {
     return this.data.layout.find(box => box.id === boxId);
+  }
+
+  findBoxByCoordinates(row, column) {
+    return this.data.layout.find(box => box.row === row && box.column === column);
   }
 
   getReferenceBox() {
