@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Box from '../Box/Box';
+import Turn from '../Turn/Turn';
 import dataFormatter from '../../helpers/dataFormatter';
 import useAppManager from '../../hooks/useAppManager';
 import calculateGrid from '../../helpers/calculateGrid';
@@ -35,17 +36,18 @@ const Grid = () => {
   useEffect(() => {
     if (!grid || !manager) return;
     if (!manager.isTomTurn()) {
-      var moveWolfTimer = setTimeout(() => moveWolf(turn), STEP_DELAY);
+      setTimeout(() => moveWolf(turn), STEP_DELAY);
     }
   }, [turn]);
 
   if (!manager) return null;
 
   return (
-    <>
+    <div className={styles.wrap}>
       <header>
         <h1>Thomas and The Wolf</h1>
       </header>
+      <Turn manager={manager} />
       <section className={styles.grid} style={updatedStyle}>
         {manager.data.layout.map(boxData => {
           return (
@@ -57,7 +59,7 @@ const Grid = () => {
             />)
         })}
       </section>
-    </>
+    </div>
   )
 } 
 

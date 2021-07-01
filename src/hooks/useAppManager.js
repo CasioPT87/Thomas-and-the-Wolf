@@ -16,7 +16,6 @@ class AppManagerHelper {
     if (!moveType) return this;
 
     const referenceBox = this.findBoxById(this.getReferenceBox());
-    console.log('can move', moveType, referenceBox.canMove(moveType))
     if (referenceBox.canMove(moveType)) return this.move(boxId);
     return null;
   }

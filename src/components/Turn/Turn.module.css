@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.turn {
+  padding: 10px;
+  color: white;
+}
+
+.tom {
+  background-color: green;
+}
+
+.wolf {
+  background-color: red;
+}
+
+.not-selected {
+  opacity: 0.5;;
+}
