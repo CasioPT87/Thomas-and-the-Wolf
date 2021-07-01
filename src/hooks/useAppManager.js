@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const TURNS = ["Tom", "Wolf-1", "Wolf-2"];
 
@@ -16,20 +16,18 @@ class AppManagerHelper {
     if (!moveType) return this;
 
     const referenceBox = this.findBoxById(this.getReferenceBox());
+    console.log('can move', moveType, referenceBox.canMove(moveType))
     if (referenceBox.canMove(moveType)) return this.move(boxId);
     return null;
   }
 
   moveWolf() {
-    console.log('move wolf method')
     const wolfBox = this.findBoxById(this.wolfBox);
     const tomBox = this.findBoxById(this.tomBox);
-
     const { change, qttyRow, qttyColumns, force } = this.wolfShouldMoveColumnOrRow(wolfBox, tomBox);
     const targetBox = this.findWolfTarget(wolfBox, change, qttyRow, qttyColumns, force);
 
     if (targetBox) {
-      console.log('move, please')
       return this.move(targetBox.id);
     }
 
@@ -45,7 +43,7 @@ class AppManagerHelper {
       force = true;
     }
     const qttyRow = diffRows > 0 ? -1 : 1;
-    const qttyColumns = diffColums > 0 ? -1 : 1
+    const qttyColumns = diffColums > 0 ? -1 : 1;
 
     return {
       change,
@@ -106,13 +104,12 @@ class AppManagerHelper {
     const referenceBox = this.findBoxById(this.getReferenceBox());
     if (!targetBox || !referenceBox) return null;
     if (this.inSame(targetBox, referenceBox, 'column')) {
-      if (targetBox.row === referenceBox.row + 1) return 'up';
-      if (targetBox.row === referenceBox.row - 1) return 'down';
+      if (targetBox.row === referenceBox.row - 1) return 'up';
+      if (targetBox.row === referenceBox.row + 1) return 'down';
 
     } else if (this.inSame(targetBox, referenceBox, 'row')) {
       if (targetBox.column === referenceBox.column + 1) return 'right';
       if (targetBox.column === referenceBox.column - 1) return 'left';
-
     }
     return null;
   }
@@ -158,9 +155,7 @@ export default function useAppManager() {
       if (turn) setTurn(turn);
     },
     moveWolf: (turn) => {
-      console.log('turn', turn)
       const newTurn = managerHelper.moveWolf(turn);
-      console.log('new turn', newTurn)
       if (newTurn) setTurn(newTurn);
     },
     setInitialData: (data) => {

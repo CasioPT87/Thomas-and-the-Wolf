@@ -35,7 +35,6 @@ const Grid = () => {
   useEffect(() => {
     if (!grid || !manager) return;
     if (!manager.isTomTurn()) {
-      console.log('el efecto dice move wolf!')
       var moveWolfTimer = setTimeout(() => moveWolf(turn), STEP_DELAY);
     }
   }, [turn]);

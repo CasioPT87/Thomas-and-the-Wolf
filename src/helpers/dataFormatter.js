@@ -3,13 +3,13 @@ function canMove(direction, border) {
   const directions = { up: 'T', down: 'B', left: 'L', right: 'R' };
   if (!Object.keys(directions).includes(direction)) return false;
   return !border.includes(directions[direction]);
-}
+};
 
 function findIdByPosition(boxesData, position) {
   return boxesData.find(boxData => {
     return boxData.column === position.column && boxData.row === position.row;
-  })
-}
+  });
+};
 
 export default function dataFormatter(data) {
   const layout = data.puzzles[0].layout;
@@ -33,4 +33,4 @@ export default function dataFormatter(data) {
     layout: boxesData,
     displayWall: canMove
   }
-}
+};
