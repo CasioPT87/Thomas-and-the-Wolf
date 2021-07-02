@@ -3,7 +3,7 @@ import Box from '../Box/Box';
 import Turn from '../Turn/Turn';
 import dataFormatter from '../../helpers/dataFormatter';
 import useAppManager from '../../hooks/useAppManager';
-import calculateGrid from '../../helpers/calculateGrid';
+import { getNumberOfRowsAndColumns as calculateGrid } from '../../helpers/gridFunctions';
 import styles from './Grid.module.css';
 
 const STEP_DELAY = 500;
@@ -40,12 +40,22 @@ const Grid = () => {
     if (!manager.isTomTurn()) {
       moveWolfTimer = setTimeout(() => moveWolf(), STEP_DELAY);
     }
-    if (manager.isGameOver()) {
+    function hasFinished() {
+      if (manager.isGameOver()) {
+        end('thats all folks!!')
+      }
+
+      if (manager.isSuccessfulEscape()) {
+        end('well done!! congratulations!!')
+      }
+    }
+    function end(message) {
       restartTimer = setTimeout(() => {
-        alert('that is all folks');
+        alert(message);
         setInitialData(initialData);
       }, STEP_DELAY);
     }
+    hasFinished();
     return function clearTimers() {
       clearTimeout(moveWolfTimer);
       clearTimeout(restartTimer);

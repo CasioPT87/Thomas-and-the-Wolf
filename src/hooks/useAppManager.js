@@ -141,6 +141,11 @@ class AppManagerHelper {
   isGameOver() {
     return this.tomBox === this.wolfBox;
   }
+
+  isSuccessfulEscape() {
+    const tomBox = this.findBoxById(this.tomBox);
+    return tomBox.isExit;
+  }
 }
 
 export default function useAppManager() {

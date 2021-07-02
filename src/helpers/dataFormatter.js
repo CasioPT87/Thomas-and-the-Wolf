@@ -1,3 +1,5 @@
+import { getNumberOfRowsAndColumns, findExitBox } from './gridFunctions';
+
 
 function canMove(direction, border) {
   const directions = { up: 'T', down: 'B', left: 'L', right: 'R' };
@@ -13,6 +15,7 @@ function findIdByPosition(boxesData, position) {
 
 export default function dataFormatter(data) {
   const layout = data.puzzles[0].layout;
+  const { rows: numRows, cols: numColumns } = getNumberOfRowsAndColumns(data);
 
   const boxesData = layout.map((boxData, i) => {
     const { row, column, borders } = boxData;
@@ -22,6 +25,7 @@ export default function dataFormatter(data) {
       row,
       column,
       canMove: (direction) => canMove(direction, borders),
+      isExit: findExitBox(numRows, numColumns, canMove, borders, row, column)
     }
   });
 
