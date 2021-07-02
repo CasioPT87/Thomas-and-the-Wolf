@@ -18,7 +18,7 @@ const Box = ({ data, manager, onClick }) => {
         [styles.wolf]: manager.isCurrentWolfBox(data.id),
       })}
     >
-        {`${data.row}${data.column}, ${data.id}`}
+        {`${data.row}${data.column}`}
     </div>
   )
 } 

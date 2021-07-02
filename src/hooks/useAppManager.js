@@ -145,7 +145,8 @@ export class AppManagerHelper {
 
   getWolfTargetData(coordinates, wolfBox) {
     const targetBox = this.findBoxByCoordinates(...coordinates);
-    const moveType = this.moveDecider.positionMoveType(targetBox, this.getReferenceBox());
+    const referenceBox = this.findBoxById(this.getReferenceBox());
+    const moveType = this.moveDecider.positionMoveType(targetBox, referenceBox);
     const wolfCanMove = wolfBox.canMove(moveType);
     return { targetBox, moveType, wolfCanMove }
   }
