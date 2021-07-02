@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div data-testid='main-app' className="App">
       <Grid />
     </div>
   );

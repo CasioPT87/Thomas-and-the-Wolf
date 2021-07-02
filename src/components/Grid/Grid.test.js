@@ -4,7 +4,7 @@ import layoutData from '../../test/mockedData/layout';
 
 import Grid from './Grid';
 
-describe.only('Grid component', () => {
+describe('Grid component', () => {
 
   beforeEach(() => {
     fetch = jest.fn().mockReturnValue(Promise.resolve({ ok: true, json: () => Promise.resolve(layoutData)}))

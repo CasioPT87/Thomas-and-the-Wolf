@@ -7,6 +7,7 @@
 .turn {
   padding: 10px;
   color: white;
+  opacity: 0.5;
 }
 
 .tom {
@@ -17,6 +18,6 @@
   background-color: red;
 }
 
-.not-selected {
-  opacity: 0.5;;
+.selected {
+  opacity: 1;;
 }

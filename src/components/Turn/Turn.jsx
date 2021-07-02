@@ -3,15 +3,17 @@ import styles from './Turn.module.css';
 
 const Turn = ({ manager }) => {
   return (
-    <div className={styles.wrapper} >
+    <div data-testid='turn' className={styles.wrapper} >
       <div
+        id='tom turn'
         className={cx(styles.turn, styles.tom, {
-          [styles['not-selected']]: !manager.isTomTurn()
+          [styles['selected']]: manager.isTomTurn()
         })}
       >Tom's turn</div>
       <div
+        id='wolf turn'
         className={cx(styles.turn, styles.wolf, {
-          [styles['not-selected']]: manager.isTomTurn()
+          [styles['selected']]: !manager.isTomTurn()
         })}
       >Wolf's turn</div>
     </div>

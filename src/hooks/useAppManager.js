@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const TURNS = ["Tom", "Wolf-1", "Wolf-2"];
 
-class AppManagerHelper {
+export class AppManagerHelper {
 
   constructor(data) {
     this.data = data;
@@ -172,3 +172,5 @@ export default function useAppManager() {
     initialData
   }
 }
+
+export { TURNS };
