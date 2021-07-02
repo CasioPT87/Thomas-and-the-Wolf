@@ -1,5 +1,5 @@
 import layoutData from '../test/mockedData/layout';
-import { AppManagerHelper, TURNS } from './useAppManager';
+import { AppManagerHelper, TURNS, MoveDecider } from './useAppManager';
 import dataFormatter from '../helpers/dataFormatter';
 
 describe('AppManagerHelper', () => {
@@ -9,7 +9,7 @@ describe('AppManagerHelper', () => {
 
     beforeEach(() => {
       formattedData = dataFormatter(layoutData);
-      manager = new AppManagerHelper(formattedData);
+      manager = new AppManagerHelper(formattedData, new MoveDecider());
     })
   
     it('to have constructor properties', () => {
@@ -25,7 +25,7 @@ describe('AppManagerHelper', () => {
       const tomBox = manager.findBoxById(tomBoxId);
       boxes.forEach(box => {
         if (box.id === tomBoxId) return;
-        const direction = manager.positionMoveType(box.id);
+        const direction = manager.moveDecider.positionMoveType(box, tomBox);
         const shouldBeAllowed = direction && tomBox.canMove(direction);        
         manager.moveTom(box.id);
         if (shouldBeAllowed) expect(manager.tomBox).toBe(box.id);
