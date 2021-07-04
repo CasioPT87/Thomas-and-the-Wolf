@@ -22,7 +22,7 @@ const Grid = () => {
       setGrid(calculateGrid(data));
     }
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!grid) return;
@@ -60,7 +60,7 @@ const Grid = () => {
       clearTimeout(moveWolfTimer);
       clearTimeout(restartTimer);
     }
-  }, [turn, manager]);
+  }, [turn, manager, initialData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!manager) return null;
 
