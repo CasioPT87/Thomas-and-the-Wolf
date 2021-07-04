@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import layoutData from '../../test/mockedData/layout';
-import { AppManagerHelper } from '../../hooks/useAppManager';
+import { AppManager, DataManager } from '../../hooks/useAppManager/useAppManager';
 import dataFormatter from '../../helpers/dataFormatter';
 
 import Turn from './Turn';
@@ -11,7 +11,7 @@ describe.only('Turn component', () => {
   let manager;
 
   beforeEach(() => {
-    manager = new AppManagerHelper(dataFormatter(layoutData));
+    manager = new AppManager(dataFormatter(layoutData), DataManager);
   })
 
   it('renders and display', () => {

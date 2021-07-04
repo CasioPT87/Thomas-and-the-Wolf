@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import Box from '../Box/Box';
 import Turn from '../Turn/Turn';
 import dataFormatter from '../../helpers/dataFormatter';
-import useAppManager from '../../hooks/useAppManager';
+import useAppManager from '../../hooks/useAppManager/useAppManager';
 import { getNumberOfRowsAndColumns as calculateGrid } from '../../helpers/gridFunctions';
 import styles from './Grid.module.css';
 
 const STEP_DELAY = 500;
 
 const Grid = () => {
-  const { initialData, manager, moveTom, moveWolf, setInitialData, turn } = useAppManager(null);
+  const { initialData, manager, moveTom, moveWolf, setInitialData, turn } = useAppManager();
   const [updatedStyle, setStyles] = useState({});
   const [grid, setGrid] = useState(null);
 
@@ -71,7 +71,7 @@ const Grid = () => {
       </header>
       <Turn manager={manager} />
       <section className={styles.grid} style={updatedStyle}>
-        {manager.data.layout.map(boxData => {
+        {manager.dataManager.data.layout.map(boxData => {
           return (
             <Box
               key={boxData.id}
